@@ -1,17 +1,21 @@
-import { useContext } from "react";
 import { useAuth } from "../../context/authContext/AuthContext";
 import { Logout } from "../logout/Logout";
 
 export const Header = () => {
-  const { userLoggedIn } = useAuth();
+  const { userLoggedIn, currentUser } = useAuth();
 
-  console.log(userLoggedIn);
+  const getName = (email) => {
+    if (!email) return "User";
+    let firstPart = email.split("@")[0];
+    let secondPart = firstPart.split(".")[0];
+    return secondPart || "User";
+  };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          Holyday photos
+          Holiday Photos
         </a>
         <button
           className="navbar-toggler"
@@ -34,19 +38,34 @@ export const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                menu
+                Menu
               </a>
               <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    vardas
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    signout
-                  </a>
-                </li>
+                {userLoggedIn ? (
+                  <>
+                    <li key="user-name">
+                      <a className="dropdown-item" href="#">
+                        {getName(currentUser.email)}
+                      </a>
+                    </li>
+                    <li key="logout">
+                      <Logout />
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li key="login">
+                      <a className="dropdown-item" href="#">
+                        Login
+                      </a>
+                    </li>
+                    <li key="Register">
+                      <a className="dropdown-item" href="#">
+                        Register
+                      </a>
+                    </li>
+                  </>
+                )}
               </ul>
             </li>
           </ul>

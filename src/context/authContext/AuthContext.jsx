@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     currentUser,
     userLoggedIn,
+    setUserLoggedIn, // Provide the setter function
     loading,
   };
 
