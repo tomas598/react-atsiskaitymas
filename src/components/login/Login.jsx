@@ -1,10 +1,12 @@
 import { doSignInWithEmailAndPassword } from "../../firebase/firebaseAuth";
 import { useAuth } from "../../context/authContext/AuthContext";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const { userLoggedIn } = useAuth();
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -26,6 +28,7 @@ export const Login = () => {
         setIsSigningIn(true);
         await doSignInWithEmailAndPassword(email, password);
         console.log("User signed in");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
@@ -69,6 +72,9 @@ export const Login = () => {
           >
             {isSigningIn ? "Signing in..." : "Login"}
           </button>
+          <p>
+            dont have and account? <Link to="/register">register</Link>
+          </p>
         </div>
       </form>
     </div>

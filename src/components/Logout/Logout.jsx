@@ -7,7 +7,7 @@ export const Logout = () => {
   const signOut = async () => {
     try {
       await doSignOut();
-      setUserLoggedIn(false); // Correctly use the state setter
+      setUserLoggedIn(false);
       console.log(userLoggedIn);
     } catch (error) {
       console.error("Error signing out: ", error);
@@ -15,7 +15,7 @@ export const Logout = () => {
   };
 
   return (
-    <button onClick={signOut} className="btn">
+    <button onClick={signOut} className="dropdown-item ">
       Logout
     </button>
   );

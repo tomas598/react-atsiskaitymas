@@ -1,16 +1,20 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Register } from "./components/register/Register";
-import { Login } from "./components/login/Login";
+import React from "react";
 import { AuthProvider } from "./context/authContext/AuthContext";
 import { Header } from "./components/header/Header";
-import { Home } from "./components/home/Home";
 import Router from "./router/Router";
+import { BrowserRouter } from "react-router-dom"; // Import BrowserRouter
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <AuthProvider>
-      <Header />
-      <Router />
+      <BrowserRouter>
+        {" "}
+        {/* Wrap everything inside BrowserRouter */}
+        <Header />
+        <Router />
+      </BrowserRouter>
     </AuthProvider>
   );
 }
