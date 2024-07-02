@@ -1,0 +1,23 @@
+.divForAddButton {
+  background-color: red;
+
+  &__button {
+    border-radius: 50px;
+  }
+}
+
+.display-1-logo {
+  height: 40px;
+  width: 40px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid black 2px;
+  &__circle {
+    height: 30px;
+    width: 30px;
+    background-color: gray;
+    border-radius: 50%;
+  }
+}

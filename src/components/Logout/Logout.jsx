@@ -1,7 +1,9 @@
 import { doSignOut } from "../../firebase/firebaseAuth";
 import { useAuth } from "../../context/authContext/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const Logout = () => {
+  const navigate = useNavigate();
   const { userLoggedIn, setUserLoggedIn } = useAuth();
 
   const signOut = async () => {
@@ -9,6 +11,7 @@ export const Logout = () => {
       await doSignOut();
       setUserLoggedIn(false);
       console.log(userLoggedIn);
+      navigate("/login");
     } catch (error) {
       console.error("Error signing out: ", error);
     }
