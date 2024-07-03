@@ -106,12 +106,12 @@ export const Home = () => {
   };
 
   return (
-    <div className="container-fluid w-100">
-      <div className="modal-buttons d-flex flex-direction-column w-100">
-        <div className="divForAddButton d-flex justify-content-center">
+    <div className="container-fluid">
+      <div className="modal-buttons-div">
+        <div className="modal-buttons-div__container">
           <button
             type="button"
-            className="btn btn-primary"
+            className="modal-buttons-div__container__add-button"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal1"
           >
@@ -138,7 +138,7 @@ export const Home = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body">
+                <div className="modal-body-1">
                   <div className="mb-3">
                     <input
                       type="text"
@@ -181,10 +181,10 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <div className="divForAddButton d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <button
             type="button"
-            className="btn btn-primary"
+            className="modal-buttons-div__container__change-display-button"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal2"
           >
@@ -211,70 +211,97 @@ export const Home = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body">
-                  <div
-                    className="display-1-logo"
-                    onClick={() => handleDisplayClick(1)}
-                  >
-                    <div className="display-1-logo__circle"></div>
-                  </div>
 
-                  <button
-                    key={2}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(2)}
-                  >
-                    2
-                  </button>
-                  <button
-                    key={3}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(3)}
-                  >
-                    3
-                  </button>
-                  <button
-                    key={4}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(4)}
-                  >
-                    4
-                  </button>
-                  <button
-                    key={5}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(5)}
-                  >
-                    5
-                  </button>
-                  <button
-                    key={6}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(6)}
-                  >
-                    6
-                  </button>
-                  <button
-                    key={7}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(7)}
-                  >
-                    7
-                  </button>
-                  <button
-                    key={8}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(8)}
-                  >
-                    8
-                  </button>
-                  <button
-                    key={9}
-                    className="btn btn-secondary"
-                    onClick={() => handleDisplayClick(9)}
-                  >
-                    9
-                  </button>
+                <div className="modal-body">
+                  <div className="modal-body__buttons">
+                    <div className="modal-body__buttons__row-1">
+                      <div className="modal-body__buttons__row-1__button-1">
+                        <div
+                          className="modal-body__buttons__row-1__button-1__square"
+                          onClick={() => handleDisplayClick(1)}
+                        >
+                          <div className="modal-body__buttons__row-1__button-1__square__circle"></div>
+                        </div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-1__button-2"
+                        onClick={() => handleDisplayClick(2)}
+                      >
+                        <div className="modal-body__buttons__row-1__button-2__right-div"></div>
+                        <div className="modal-body__buttons__row-1__button-2__left-div"></div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-1__button-3"
+                        onClick={() => handleDisplayClick(3)}
+                      >
+                        <div className="modal-body__buttons__row-1__button-3__div-1">
+                          <div className="modal-body__buttons__row-1__button-3__div-1__square-1"></div>
+                          <div className="modal-body__buttons__row-1__button-3__div-1__square-2"></div>
+                        </div>
+                        <div className="modal-body__buttons__row-1__button-3__div-2">
+                          <div className="modal-body__buttons__row-1__button-3__div-2__square-3"></div>
+                          <div className="modal-body__buttons__row-1__button-3__div-2__square-4"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-body__buttons__row-2">
+                      <div
+                        className="modal-body__buttons__row-2__button-1"
+                        onClick={() => handleDisplayClick(4)}
+                      >
+                        <div className="modal-body__buttons__row-2__button-1__square"></div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-2__button-2"
+                        onClick={() => handleDisplayClick(5)}
+                      >
+                        <div className="modal-body__buttons__row-2__button-2__div-1"></div>
+                        <div className="modal-body__buttons__row-2__button-2__div-2"></div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-2__button-3"
+                        onClick={() => handleDisplayClick(6)}
+                      >
+                        <div className="modal-body__buttons__row-2__button-3__div-1">
+                          <div className="modal-body__buttons__row-2__button-3__div-1__circle"></div>
+                          <div className="modal-body__buttons__row-2__button-3__div-1__square"></div>
+                        </div>
+                        <div className="modal-body__buttons__row-2__button-3__div-2">
+                          <div className="modal-body__buttons__row-2__button-3__div-2__square"></div>
+                          <div className="modal-body__buttons__row-2__button-3__div-2__circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-body__buttons__row-3">
+                      <div
+                        className="modal-body__buttons__row-3__button-1"
+                        onClick={() => handleDisplayClick(7)}
+                      >
+                        <div className="modal-body__buttons__row-3__button-1__div-1"></div>
+                        <div className="modal-body__buttons__row-3__button-1__div-2"></div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-3__button-2"
+                        onClick={() => handleDisplayClick(8)}
+                      >
+                        <div className="modal-body__buttons__row-3__button-2__div-1">
+                          <div className="modal-body__buttons__row-3__button-2__div-1__element-1"></div>
+                          <div className="modal-body__buttons__row-3__button-2__div-1__element-2"></div>
+                        </div>
+                        <div className="modal-body__buttons__row-3__button-2__div-2"></div>
+                      </div>
+                      <div
+                        className="modal-body__buttons__row-3__button-3"
+                        onClick={() => handleDisplayClick(9)}
+                      >
+                        <div className="modal-body__buttons__row-3__button-3__div-2"></div>
+                        <div className="modal-body__buttons__row-3__button-3__div-1">
+                          <div className="modal-body__buttons__row-3__button-3__div-1__element-1"></div>
+                          <div className="modal-body__buttons__row-3__button-3__div-1__element-2"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button
@@ -299,7 +326,6 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* Render selected display component */}
       <div className="selected-display">{renderSelectedDisplay()}</div>
     </div>
   );

@@ -1,0 +1,9 @@
+@import "variables";
+@mixin button-style() {
+  border-radius: 5px;
+  background-color: gray;
+  color: black;
+  &:hover {
+    border: solid 3px black;
+  }
+}

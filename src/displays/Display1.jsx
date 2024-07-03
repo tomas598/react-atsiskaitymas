@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db, auth } from "../firebase/firebase";
+import { FaTrash } from "react-icons/fa";
+import { Modal, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Display1 = () => {
   const [listings, setListings] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       const user = auth.currentUser;
@@ -15,6 +28,7 @@ export const Display1 = () => {
 
     fetchUser();
   }, []);
+
   useEffect(() => {
     const fetchListings = async () => {
       if (!userId) return;
@@ -30,6 +44,21 @@ export const Display1 = () => {
     fetchListings();
   }, [userId]);
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "listings", id));
+      setListings(listings.filter((listing) => listing.id !== id));
+      setShowModal(false); // Close modal after deletion
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
+  };
+
+  const handleShowModal = (image) => {
+    setSelectedImage(image);
+    setShowModal(true);
+  };
+
   return (
     <div>
       {listings.map((listing) => (
@@ -37,7 +66,7 @@ export const Display1 = () => {
           className="row container-fluid justify-content-center"
           key={listing.id}
         >
-          <div className="col-1">
+          <div className="col-1 position-relative">
             <div className="listing d-flex justify-content-center align-items-center">
               <img
                 src={listing.url}
@@ -48,11 +77,51 @@ export const Display1 = () => {
                   borderRadius: "100%",
                   objectFit: "cover",
                 }}
+                onClick={() => handleShowModal(listing.url)}
               />
+              <button
+                onClick={() => handleDelete(listing.id)}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  right: "10px",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <FaTrash size={24} color="red" />
+              </button>
             </div>
           </div>
         </div>
       ))}
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedImage && (
+            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="danger"
+            onClick={() =>
+              handleDelete(
+                listings.find((listing) => listing.url === selectedImage)?.id
+              )
+            }
+          >
+            Delete
+          </Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
