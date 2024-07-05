@@ -49,7 +49,7 @@ export const Display6 = () => {
     try {
       await deleteDoc(doc(db, "listings", id));
       setListings(listings.filter((listing) => listing.id !== id));
-      setShowModal(false); // Close modal after deletion
+      setShowModal(false);
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -73,6 +73,7 @@ export const Display6 = () => {
                 style={{
                   width: "450px",
                   height: "450px",
+                  objectFit: "cover",
                   borderRadius:
                     index === 0 ||
                     index % 3 === 0 ||
@@ -112,7 +113,11 @@ export const Display6 = () => {
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              style={{ width: "470px", height: "470px" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>

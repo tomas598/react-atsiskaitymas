@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../../context/authContext/AuthContext";
 import { Logout } from "../logout/Logout";
 import { Link, useNavigate } from "react-router-dom";
+import "../../styles/Home/Home.scss";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -19,11 +20,9 @@ export const Header = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-body-tertiary">
+    <nav className="navbar navbar-expand-sm bg-body-tertiary sticky-top">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          Holiday Photos
-        </Link>
+        Holiday Photos
         <button
           className="navbar-toggler"
           type="button"

@@ -33,6 +33,7 @@ export const Display9 = () => {
   useEffect(() => {
     const fetchListings = async () => {
       if (!userId) return;
+
       const listingsCollection = collection(db, "listings");
       const q = query(listingsCollection, where("userId", "==", userId));
       const listingsSnapshot = await getDocs(q);
@@ -40,9 +41,10 @@ export const Display9 = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      listingsList.sort((a, b) => a.order - b.order); // Sorting the listingsList by a specific order, assuming 'order' is a field in your Firestore document
+
       setListings(listingsList);
     };
+
     fetchListings();
   }, [userId]);
 
@@ -64,41 +66,49 @@ export const Display9 = () => {
 
   return (
     <div className="container-fluid">
-      <div className="row justify-content-center">
-        {listings.map((listing) => (
-          <div className="col-6 position-relative" key={listing.id}>
-            <div className="listing d-flex justify-content-center align-items-center">
+      <div className="row g-4">
+        {listings.map((listing, index) => (
+          <div
+            key={listing.id}
+            className={`col-md-6 ${index % 3 === 2 ? "h-auto" : "h-25"}`}
+          >
+            <div className="card position-relative h-100">
               <img
                 src={listing.url}
                 alt="Listing"
-                onClick={() => handleShowModal(listing.url, listing.id)}
-                style={{ cursor: "pointer" }}
-              />
-              <button
-                onClick={() => handleDelete(listing.id)}
+                className={`img-fluid ${
+                  index === 3 || index === 0 ? "w-100" : "w-50"
+                }`}
                 style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  background: "transparent",
-                  border: "none",
+                  objectFit: "cover",
+
                   cursor: "pointer",
                 }}
+                onClick={() => handleShowModal(listing.url, listing.id)}
+              />
+              <button
+                className="btn btn-danger btn-sm position-absolute top-0 end-0 m-3"
+                onClick={() => handleDelete(listing.id)}
               >
-                <FaTrash size={24} color="red" />
+                <FaTrash />
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
+          <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{ maxHeight: "70vh", width: "100%", objectFit: "contain" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>

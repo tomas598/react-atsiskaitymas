@@ -19,10 +19,10 @@ export const Home = () => {
     url: "",
     userId: "",
   });
-
+  const [urlValid, setUrlValid] = useState(true);
   const [listings, setListings] = useState([]);
-  const [tempSelectedDisplay, setTempSelectedDisplay] = useState(null); // Temporary state to track selected display component
-  const [selectedDisplay, setSelectedDisplay] = useState(1); // Set initial state to 1 to render Display1 by default
+  const [tempSelectedDisplay, setTempSelectedDisplay] = useState(null);
+  const [selectedDisplay, setSelectedDisplay] = useState(1);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,31 +53,33 @@ export const Home = () => {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setInputData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+
+    if (name === "url") {
+      setUrlValid(value.startsWith("https://"));
+    }
   };
 
   const handleSubmit = async () => {
     try {
       await addListing(inputData);
-      // Update listings state with the newly added item
       setListings([...listings, inputData]);
-      // Reset input fields
       setInputData({ name: "", url: "", userId: inputData.userId });
     } catch (error) {
       console.error("Error adding listing:", error);
-      // Handle error (e.g., show error message)
     }
   };
 
   const handleDisplayClick = (displayNum) => {
-    setTempSelectedDisplay(displayNum); // Set the temporary selected display component
+    setTempSelectedDisplay(displayNum);
   };
 
   const handleDisplaySave = () => {
-    setSelectedDisplay(tempSelectedDisplay); // Set the selected display component from temp
+    setSelectedDisplay(tempSelectedDisplay);
   };
 
   const renderSelectedDisplay = () => {
@@ -129,7 +131,7 @@ export const Home = () => {
               <div className="modal-content">
                 <div className="modal-header">
                   <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    Modal title
+                    Upload a picture
                   </h1>
                   <button
                     type="button"
@@ -138,7 +140,7 @@ export const Home = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body-1">
+                <div className="modal-body-1 container mt-3">
                   <div className="mb-3">
                     <input
                       type="text"
@@ -158,21 +160,25 @@ export const Home = () => {
                       value={inputData.url}
                       onChange={handleChange}
                     />
+                    {!urlValid && (
+                      <div className="text-danger">Invalid URL</div>
+                    )}
                   </div>
                 </div>
-                <div className="modal-footer">
+                <div className="modal-footer d-flex justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="modal-buttons-div__container__add-button"
                     data-bs-dismiss="modal"
                   >
                     Close
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="modal-buttons-div__container__add-button"
                     onClick={handleSubmit}
                     data-bs-dismiss="modal"
+                    disabled={!urlValid}
                   >
                     Save changes
                   </button>
@@ -202,7 +208,7 @@ export const Home = () => {
               <div className="modal-content">
                 <div className="modal-header">
                   <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    Modal title
+                    Select a display
                   </h1>
                   <button
                     type="button"
@@ -303,17 +309,17 @@ export const Home = () => {
                     </div>
                   </div>
                 </div>
-                <div className="modal-footer">
+                <div className="modal-footer d-flex justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="modal-buttons-div__container__add-button"
                     data-bs-dismiss="modal"
                   >
                     Close
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="modal-buttons-div__container__add-button"
                     onClick={handleDisplaySave}
                     data-bs-dismiss="modal"
                   >

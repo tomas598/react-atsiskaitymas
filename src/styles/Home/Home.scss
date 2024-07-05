@@ -6,6 +6,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  height: 100px;
+  border: black solid 0px;
   &__container {
     &__add-button {
       @include button-style;
@@ -25,6 +27,7 @@
     height: 450px;
     width: 450px;
     background-color: $white-color;
+
     &__row-1 {
       height: 150px;
       width: 450px;
@@ -36,10 +39,7 @@
       &__button-1 {
         height: 100px;
         width: 100px;
-
-        &:hover {
-          border-color: rgba(0, 0, 1, 1);
-        }
+        @include display-style;
         &__square {
           height: 100px;
           width: 100px;
@@ -63,6 +63,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        @include display-style;
         &__right-div {
           height: 70%;
           width: 48%;
@@ -82,6 +83,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        @include display-style;
         &__div-1 {
           width: 99%;
           height: 48%;
@@ -135,6 +137,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        @include display-style;
         &__square {
           height: 70%;
           width: 70%;
@@ -149,6 +152,7 @@
         flex-direction: column;
         justify-content: space-between;
         border: 3px $white-color solid;
+        @include display-style;
         &__div-1 {
           height: 48%;
           width: 100%;
@@ -166,7 +170,7 @@
         background-color: $white-color;
         border: 3px solid $white-color;
         flex-direction: row;
-
+        @include display-style;
         justify-content: space-between;
         &__div-1 {
           height: 50%;
@@ -225,6 +229,7 @@
         flex-direction: column;
         justify-content: space-between;
         border: 3px $white-color solid;
+        @include display-style;
         &__div-1 {
           height: 48%;
           width: 100%;
@@ -244,6 +249,7 @@
         flex-direction: column;
         border: 3px solid $white-color;
         justify-content: space-between;
+        @include display-style;
         &__div-1 {
           height: 33%;
           width: 100%;
@@ -276,6 +282,7 @@
         flex-direction: row;
         border: 3px solid $white-color;
         justify-content: space-between;
+        @include display-style;
         &__div-1 {
           height: 100%;
           width: 33%;
@@ -302,4 +309,24 @@
       }
     }
   }
+}
+
+.delete-btn {
+  margin-top: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.listing img {
+  width: 100%;
+  object-fit: cover;
+  height: auto;
+}
+
+.div-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  background-color: black;
 }

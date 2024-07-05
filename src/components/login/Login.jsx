@@ -3,6 +3,7 @@ import { useAuth } from "../../context/authContext/AuthContext";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "../../styles/Home/Home.scss";
 
 export const Login = () => {
   const { userLoggedIn } = useAuth();
@@ -66,7 +67,7 @@ export const Login = () => {
         )}
         <div className="mb-3">
           <button
-            className="btn btn-secondary"
+            className="modal-buttons-div__container__add-button"
             type="submit"
             disabled={isSigningIn}
           >

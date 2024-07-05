@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/firebaseAuth";
 import { useAuth } from "../../context/authContext/AuthContext";
+import "../../styles/Home/Home.scss";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const Register = () => {
       await doCreateUserWithEmailAndPassword(email, password);
 
       console.log("user registered");
-      navigate("/login"); // Navigate to login page
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +54,10 @@ export const Register = () => {
             />
           </div>
           <div className="mb-3">
-            <button className="btn btn-secondary" type="submit">
+            <button
+              className="modal-buttons-div__container__add-button"
+              type="submit"
+            >
               Register
             </button>
           </div>

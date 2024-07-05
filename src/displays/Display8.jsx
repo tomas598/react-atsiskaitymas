@@ -33,6 +33,7 @@ export const Display8 = () => {
   useEffect(() => {
     const fetchListings = async () => {
       if (!userId) return;
+
       const listingsCollection = collection(db, "listings");
       const q = query(listingsCollection, where("userId", "==", userId));
       const listingsSnapshot = await getDocs(q);
@@ -40,8 +41,10 @@ export const Display8 = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
       setListings(listingsList);
     };
+
     fetchListings();
   }, [userId]);
 
@@ -62,74 +65,43 @@ export const Display8 = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center">
-        {listings.map((listing, index) =>
-          index % 3 === 2 ? (
-            <div className="col-12 position-relative" key={listing.id}>
-              <div className="listing d-flex justify-content-center align-items-center">
-                <img
-                  src={listing.url}
-                  alt="logo"
-                  style={{
-                    width: "100%",
-                    height: "410px",
-                  }}
-                  onClick={() => handleShowModal(listing.url, listing.id)}
-                />
-                <button
-                  onClick={() => handleDelete(listing.id)}
-                  style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "10px",
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  <FaTrash size={24} color="red" />
-                </button>
-              </div>
+    <div className="container-fluid d-flex flex-wrap">
+      <div className="row g-4 justify-content-center">
+        {listings.map((listing, index) => (
+          <div
+            key={listing.id}
+            className={`${index % 3 === 2 ? "col-12" : " col-6"}`}
+          >
+            <div className="card h-100 position-relative">
+              <img
+                src={listing.url}
+                alt="Listing"
+                style={{ objectFit: "cover", height: "300px" }}
+                onClick={() => handleShowModal(listing.url, listing.id)}
+              />
+              <button
+                className="btn btn-danger btn-sm position-absolute top-0 end-0 m-3"
+                onClick={() => handleDelete(listing.id)}
+              >
+                <FaTrash />
+              </button>
             </div>
-          ) : (
-            <div className="col-6 position-relative" key={listing.id}>
-              <div className="listing d-flex justify-content-center align-items-center">
-                <img
-                  src={listing.url}
-                  alt="logo"
-                  style={{
-                    width: "410px",
-                    height: "410px",
-                  }}
-                  onClick={() => handleShowModal(listing.url, listing.id)}
-                />
-                <button
-                  onClick={() => handleDelete(listing.id)}
-                  style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "10px",
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  <FaTrash size={24} color="red" />
-                </button>
-              </div>
-            </div>
-          )
-        )}
+          </div>
+        ))}
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
+          <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{ maxHeight: "70vh", width: "100%", objectFit: "contain" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>

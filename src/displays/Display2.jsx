@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   collection,
   getDocs,
@@ -18,6 +18,7 @@ export const Display2 = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  const rowRefs = useRef([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,11 +46,42 @@ export const Display2 = () => {
     fetchListings();
   }, [userId]);
 
+  useEffect(() => {
+    const setRowHeights = () => {
+      rowRefs.current.forEach((rowRef) => {
+        const images = Array.from(rowRef.querySelectorAll("img"));
+        if (images.length === 0) return;
+        let maxHeight = 0;
+        images.forEach((img) => {
+          const height = img.offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+        });
+        images.forEach((img) => {
+          img.style.height = `${maxHeight}px`;
+        });
+      });
+    };
+
+    setRowHeights();
+
+    const handleResize = () => {
+      setRowHeights();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [listings]);
+
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "listings", id));
       setListings(listings.filter((listing) => listing.id !== id));
-      setShowModal(false); // Close modal after deletion
+      setShowModal(false);
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -64,25 +96,27 @@ export const Display2 = () => {
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
-        {listings.map((listing) => (
-          <div className="col-6 position-relative" key={listing.id}>
-            <div className="listing d-flex justify-content-center align-items-center">
+        {listings.map((listing, index) => (
+          <div
+            className="col-6  mb-4"
+            key={listing.id}
+            ref={(el) => (rowRefs.current[index] = el)}
+          >
+            <div className="listing">
               <img
                 src={listing.url}
                 alt="logo"
-                style={{ width: "450px", height: "600px" }}
+                className="img-fluid rounded"
+                style={{
+                  height: "600px",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
                 onClick={() => handleShowModal(listing.url, listing.id)}
               />
               <button
                 onClick={() => handleDelete(listing.id)}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                className="delete-btn"
               >
                 <FaTrash size={24} color="red" />
               </button>
@@ -97,7 +131,12 @@ export const Display2 = () => {
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{ maxHeight: "470px", width: "100%", objectFit: "cover" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -112,3 +151,5 @@ export const Display2 = () => {
     </div>
   );
 };
+
+export default Display2;

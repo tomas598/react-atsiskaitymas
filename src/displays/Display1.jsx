@@ -60,50 +60,46 @@ export const Display1 = () => {
   };
 
   return (
-    <div>
-      {listings.map((listing) => (
-        <div
-          className="row container-fluid justify-content-center"
-          key={listing.id}
-        >
-          <div className="col-1 position-relative">
-            <div className="listing d-flex justify-content-center align-items-center">
+    <div className="container-fluid">
+      <div className="row justify-content-center">
+        {listings.map((listing) => (
+          <div
+            key={listing.id}
+            className="col-12 col-md-12 col-lg-12 mb-4 h-100"
+            style={{ height: "100vh", width: "70%" }}
+          >
+            <div className="listing position-relative">
               <img
                 src={listing.url}
                 alt="logo"
-                style={{
-                  width: "700px",
-                  height: "700px",
-                  borderRadius: "100%",
-                  objectFit: "cover",
-                }}
+                className="img-fluid rounded-circle"
+                style={{ objectFit: "cover", cursor: "pointer" }}
                 onClick={() => handleShowModal(listing.url)}
               />
               <button
                 onClick={() => handleDelete(listing.id)}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                className="btn btn-danger btn-sm position-absolute top-0 end-0 mt-2 me-2"
+                style={{ cursor: "pointer" }}
               >
-                <FaTrash size={24} color="red" />
+                <FaTrash />
               </button>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
+          <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{ maxHeight: "70vh", width: "100%", objectFit: "contain" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -111,7 +107,7 @@ export const Display1 = () => {
             variant="danger"
             onClick={() =>
               handleDelete(
-                listings.find((listing) => listing.url === selectedImage)?.id
+                listings.find((item) => item.url === selectedImage)?.id
               )
             }
           >

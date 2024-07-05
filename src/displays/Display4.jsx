@@ -33,6 +33,7 @@ export const Display4 = () => {
   useEffect(() => {
     const fetchListings = async () => {
       if (!userId) return;
+
       const listingsCollection = collection(db, "listings");
       const q = query(listingsCollection, where("userId", "==", userId));
       const listingsSnapshot = await getDocs(q);
@@ -40,8 +41,10 @@ export const Display4 = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
       setListings(listingsList);
     };
+
     fetchListings();
   }, [userId]);
 
@@ -49,7 +52,7 @@ export const Display4 = () => {
     try {
       await deleteDoc(doc(db, "listings", id));
       setListings(listings.filter((listing) => listing.id !== id));
-      setShowModal(false); // Close modal after deletion
+      setShowModal(false);
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -65,43 +68,44 @@ export const Display4 = () => {
     <div className="container-fluid">
       <div className="row justify-content-center">
         {listings.map((listing) => (
-          <div className="col-12 position-relative" key={listing.id}>
-            <div className="listing d-flex justify-content-center align-items-center">
+          <div
+            key={listing.id}
+            className="col-8 col-md-8 col-lg-8 position-relative mb-5"
+          >
+            <div className="card h-100 position-relative">
               <img
                 src={listing.url}
-                alt="logo"
+                alt="Listing"
+                className="card-img-top"
                 style={{
-                  width: "600px",
-                  height: "600px",
-                  marginTop: "130px",
+                  objectFit: "cover",
+                  height: "500px",
                 }}
                 onClick={() => handleShowModal(listing.url, listing.id)}
               />
               <button
+                className="btn btn-danger btn-sm position-absolute top-0 end-0 m-3"
                 onClick={() => handleDelete(listing.id)}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
               >
-                <FaTrash size={24} color="red" />
+                <FaTrash />
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
+          <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{ maxHeight: "70vh", width: "100%", objectFit: "contain" }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>

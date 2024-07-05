@@ -42,7 +42,6 @@ export const Display3 = () => {
         ...doc.data(),
       }));
 
-      // Sorting the listingsList by a specific order, assuming 'order' is a field in your Firestore document
       listingsList.sort((a, b) => a.order - b.order);
 
       setListings(listingsList);
@@ -55,7 +54,7 @@ export const Display3 = () => {
     try {
       await deleteDoc(doc(db, "listings", id));
       setListings(listings.filter((listing) => listing.id !== id));
-      setShowModal(false); // Close modal after deletion
+      setShowModal(false);
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -69,41 +68,53 @@ export const Display3 = () => {
 
   return (
     <div className="container-fluid">
-      <div className="row justify-content-center">
+      <div className="row">
         {listings.map((listing) => (
-          <div className="col-6 position-relative" key={listing.id}>
-            <div className="listing d-flex justify-content-center align-items-center">
+          <div
+            key={listing.id}
+            className="col-lg-6 col-md-6 col-sm-6 mb-4 d-flex align-items-stretch"
+          >
+            <div className="card h-100 position-relative">
               <img
                 src={listing.url}
                 alt="Listing"
-                style={{ width: "450px", height: "450px" }}
+                className="card-img-top"
+                style={{ objectFit: "cover", height: "300px", widows: "300px" }}
                 onClick={() => handleShowModal(listing.url, listing.id)}
               />
               <button
-                onClick={() => handleDelete(listing.id)}
+                className="btn btn-danger btn-sm"
                 style={{
                   position: "absolute",
-                  bottom: "10px",
+                  top: "10px",
                   right: "10px",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
+                  zIndex: "1",
                 }}
+                onClick={() => handleDelete(listing.id)}
               >
-                <FaTrash size={24} color="red" />
+                <FaTrash />
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
+          <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedImage && (
-            <img src={selectedImage} alt="Selected" style={{ width: "100%" }} />
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="img-fluid"
+              style={{
+                height: "100%",
+                width: "100%",
+                objectFit: "contain",
+              }}
+            />
           )}
         </Modal.Body>
         <Modal.Footer>
